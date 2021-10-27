@@ -7,7 +7,7 @@ const db = mysql.createConnection(
     {
       host: 'localhost',
       user: 'root',
-      password: '',
+      password: 'jbenak987',
       database: 'employeelist_db'
     },
     console.log(`Connected to the employeelist_db database.`)
@@ -88,6 +88,13 @@ function mainQuestion() {
         viewAllRoles();
         else if (answers.choice === 'View all Employees')
         viewAllEmployees();
+        else if (answers.choice === 'Add a Department')
+        departmentQs();
+        else if (answers.choice === 'Add a Role')
+        roleQs();
+        else if (answers.choice === 'Add an Employee')
+        employeeQuestions();
+        
 
 
     })
@@ -95,6 +102,16 @@ function mainQuestion() {
 
 function departmentQs() {
     inquirer.prompt(departmentQuestions).then(function(answers){
+        db.query('INSERT INTO department SET ?', answers, function(err, results) {
+            console.log(results);
+            mainQuestion();
+        })
+        
+    })
+}
+
+function roleQs() {
+    inquirer.prompt(roleQuestions).then(function(answers){
         db.query('INSERT INTO department SET ?', answers, function(err, results) {
             console.log(results);
             mainQuestion();
